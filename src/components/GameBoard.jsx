@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { DIFFICULTIES, makeRound } from '../data/colors.js'
 
 export default function GameBoard({ difficulty, score, streak, onCorrect, onQuit }) {
-  const config = DIFFICULTIES[difficulty] ?? DIFFICULTIES.basic
+  const config = DIFFICULTIES[difficulty] ?? DIFFICULTIES.easy
 
   // A round is regenerated whenever we re-enter the playing phase. Using a
   // local key bumps the round when the player returns from the crate screen.
@@ -43,7 +43,13 @@ export default function GameBoard({ difficulty, score, streak, onCorrect, onQuit
         Click the <span className="prompt-color">{round.target.name}</span> box
       </p>
 
-      <div className={`grid grid-${config.count <= 6 ? 'small' : 'large'}`}>
+      <div
+        className="grid"
+        style={{
+          gridTemplateColumns: `repeat(${config.cols}, 1fr)`,
+          maxWidth: `${config.cols * 160}px`,
+        }}
+      >
         {round.boxes.map((box, index) => (
           <button
             key={`${box.name}-${index}`}

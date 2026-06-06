@@ -10,7 +10,7 @@ const BEST_SCORE_KEY = 'colorCrates.bestScore'
 
 export default function App() {
   const [phase, setPhase] = useState('menu') // 'menu' | 'playing' | 'crate'
-  const [difficulty, setDifficulty] = useState('basic')
+  const [difficulty, setDifficulty] = useState('easy')
   const [score, setScore] = useState(0)
   const [streak, setStreak] = useState(0)
   const [currentPrize, setCurrentPrize] = useState(null)
@@ -38,7 +38,7 @@ export default function App() {
   }
 
   function handleCorrect(roundTime) {
-    const config = DIFFICULTIES[difficulty] ?? DIFFICULTIES.basic
+    const config = DIFFICULTIES[difficulty] ?? DIFFICULTIES.easy
     const newStreak = streak + 1
     // Small streak bonus to reward consecutive hits.
     const gained = config.points + Math.max(0, newStreak - 1) * 2

@@ -42,11 +42,11 @@
 }
 
 .difficulty-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 14px;
   width: 100%;
-  max-width: 380px;
+  max-width: 460px;
 }
 
 .difficulty-btn {
@@ -66,9 +66,10 @@
   transform: translateY(-2px);
   background: rgba(255, 255, 255, 0.12);
 }
-.diff-basic:hover { border-color: #43a047; }
-.diff-advanced:hover { border-color: #fb8c00; }
-.diff-stroop:hover { border-color: #e53935; }
+.diff-easy:hover { border-color: #43a047; }
+.diff-medium:hover { border-color: #29b6f6; }
+.diff-hard:hover { border-color: #fb8c00; }
+.diff-expert:hover { border-color: #e53935; }
 
 .difficulty-label { font-size: 1.3rem; font-weight: 700; }
 .difficulty-blurb { color: var(--muted); font-size: 0.92rem; }
@@ -119,15 +120,13 @@
   text-underline-offset: 5px;
 }
 
+/* Column count and max-width are set inline per difficulty (GameBoard) so each
+   grid stays symmetric (2×2, 3×3, 4×3, 4×4) with consistent box sizes. */
 .grid {
   display: grid;
   gap: 14px;
   width: 100%;
 }
-/* Fixed column counts keep each grid symmetric on every screen size:
-   basic = 3×2 (6 boxes), advanced = 4×4 (16 boxes). */
-.grid-small { grid-template-columns: repeat(3, 1fr); }
-.grid-large { grid-template-columns: repeat(4, 1fr); }
 
 .color-box {
   aspect-ratio: 1 / 1;

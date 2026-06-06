@@ -16,45 +16,66 @@ export const BASIC_PALETTE = [
 
 // Advanced palette: nuanced / less common color names, plus similar shades
 // (multiple reds, greens, blues) that are trickier to tell apart.
+// Hex values use the standard / web definitions for each named color.
 export const ADVANCED_PALETTE = [
-  { name: 'Crimson', hex: '#b71c1c' },
-  { name: 'Scarlet', hex: '#ff5252' },
-  { name: 'Coral', hex: '#ff7043' },
-  { name: 'Amber', hex: '#ffb300' },
-  { name: 'Gold', hex: '#ffca28' },
-  { name: 'Lime', hex: '#c0ca33' },
-  { name: 'Olive', hex: '#827717' },
-  { name: 'Emerald', hex: '#1b9e5a' },
-  { name: 'Teal', hex: '#00897b' },
-  { name: 'Turquoise', hex: '#1de9b6' },
-  { name: 'Sky Blue', hex: '#29b6f6' },
-  { name: 'Azure', hex: '#2196f3' },
-  { name: 'Indigo', hex: '#3949ab' },
-  { name: 'Violet', hex: '#7c4dff' },
-  { name: 'Magenta', hex: '#d81b60' },
-  { name: 'Maroon', hex: '#880e4f' },
-  { name: 'Mauve', hex: '#b39ddb' },
-  { name: 'Tan', hex: '#d7ccc8' },
+  { name: 'Crimson', hex: '#dc143c' },
+  { name: 'Scarlet', hex: '#ff2400' },
+  { name: 'Coral', hex: '#ff7f50' },
+  { name: 'Amber', hex: '#ffbf00' },
+  { name: 'Gold', hex: '#ffd700' },
+  { name: 'Lime', hex: '#c6ff00' },
+  { name: 'Olive', hex: '#808000' },
+  { name: 'Emerald', hex: '#50c878' },
+  { name: 'Teal', hex: '#008080' },
+  { name: 'Turquoise', hex: '#40e0d0' },
+  { name: 'Sky Blue', hex: '#87ceeb' },
+  { name: 'Azure', hex: '#007fff' },
+  { name: 'Indigo', hex: '#4b0082' },
+  { name: 'Violet', hex: '#8f00ff' },
+  { name: 'Magenta', hex: '#ff00ff' },
+  { name: 'Maroon', hex: '#800000' },
+  { name: 'Mauve', hex: '#e0b0ff' },
+  { name: 'Tan', hex: '#d2b48c' },
 ]
 
-// Difficulty configuration. `palette` chooses the color vocabulary and
-// `count` is how many boxes appear (chosen to form a symmetric grid).
+// Four difficulties, scaling by number of boxes (and color vocabulary).
+// `cols` keeps each grid symmetric: 2×2, 3×3, 4×3, 4×4.
 export const DIFFICULTIES = {
-  basic: {
-    key: 'basic',
-    label: 'Basic Colors',
-    blurb: '6 boxes, everyday color names',
+  easy: {
+    key: 'easy',
+    label: 'Easy',
+    blurb: '4 boxes (2×2) · basic colors',
     palette: BASIC_PALETTE,
-    count: 6,
+    count: 4,
+    cols: 2,
     points: 10,
   },
-  advanced: {
-    key: 'advanced',
-    label: 'Advanced Colors',
-    blurb: '16 boxes, fancy names & similar shades',
+  medium: {
+    key: 'medium',
+    label: 'Medium',
+    blurb: '9 boxes (3×3) · basic colors',
+    palette: BASIC_PALETTE,
+    count: 9,
+    cols: 3,
+    points: 15,
+  },
+  hard: {
+    key: 'hard',
+    label: 'Hard',
+    blurb: '12 boxes (4×3) · fancy colors',
+    palette: ADVANCED_PALETTE,
+    count: 12,
+    cols: 4,
+    points: 25,
+  },
+  expert: {
+    key: 'expert',
+    label: 'Expert',
+    blurb: '16 boxes (4×4) · fancy colors',
     palette: ADVANCED_PALETTE,
     count: 16,
-    points: 20,
+    cols: 4,
+    points: 40,
   },
 }
 
@@ -70,7 +91,7 @@ function shuffle(arr) {
 // Build a single round: a shuffled set of `count` distinct colors from the
 // difficulty's palette, with one chosen as the target.
 export function makeRound(difficulty) {
-  const config = DIFFICULTIES[difficulty] ?? DIFFICULTIES.basic
+  const config = DIFFICULTIES[difficulty] ?? DIFFICULTIES.easy
   const boxes = shuffle(config.palette).slice(0, config.count)
   const target = boxes[Math.floor(Math.random() * boxes.length)]
   return { boxes: shuffle(boxes), target }
