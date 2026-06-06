@@ -2,22 +2,37 @@ import { useState } from 'react'
 
 const PARTY_EMOJIS = ['🎉', '🎊', '✨', '⭐', '🌟', '💫', '🎈', '🎀', '🦄', '🌈', '💥', '🍭', '🍬', '🎮', '👑', '🎆', '🪅', '🎇', '🥳', '🎵']
 
-function makeParticles(count = 200) {
+function makeTopParticles(count) {
   return Array.from({ length: count }, (_, i) => ({
-    id: i,
+    id: `t${i}`,
     emoji: PARTY_EMOJIS[Math.floor(Math.random() * PARTY_EMOJIS.length)],
     left: Math.random() * 100,
-    delay: Math.random() * 2.5,
-    duration: 1.8 + Math.random() * 2,
+    delay: Math.random() * 10,
+    duration: (1.8 + Math.random() * 2) * 4,
     size: 1 + Math.random() * 1.4,
     rotation: (Math.random() > 0.5 ? 1 : -1) * (180 + Math.random() * 360),
+  }))
+}
+
+function makeBottomParticles(count) {
+  return Array.from({ length: count }, (_, i) => ({
+    id: `b${i}`,
+    emoji: PARTY_EMOJIS[Math.floor(Math.random() * PARTY_EMOJIS.length)],
+    left: Math.random() * 100,
+    delay: Math.random() * 8,
+    duration: (1.5 + Math.random() * 2) * 4,
+    size: 0.9 + Math.random() * 1.3,
+    rotation: (Math.random() > 0.5 ? 1 : -1) * (180 + Math.random() * 360),
+    rise: -(50 + Math.random() * 70),
+    drift: (Math.random() - 0.5) * 40,
   }))
 }
 
 export default function CrateReveal({ prize, score, streak, timeLabel, onNext, onQuit }) {
   const [opened, setOpened] = useState(false)
   const [party, setParty] = useState(false)
-  const [particles] = useState(() => makeParticles(220))
+  const [topParticles] = useState(() => makeTopParticles(880))
+  const [botParticles] = useState(() => makeBottomParticles(880))
 
   function triggerParty() {
     if (!party) setParty(true)
@@ -28,7 +43,7 @@ export default function CrateReveal({ prize, score, streak, timeLabel, onNext, o
       {party && (
         <div className="party-overlay">
           <div className="party-time-text">🎉 PARTY TIME 🎉</div>
-          {particles.map(p => (
+          {topParticles.map(p => (
             <span
               key={p.id}
               className="party-particle"
@@ -38,6 +53,23 @@ export default function CrateReveal({ prize, score, streak, timeLabel, onNext, o
                 animationDuration: `${p.duration}s`,
                 fontSize: `${p.size}rem`,
                 '--end-rotation': `${p.rotation}deg`,
+              }}
+            >
+              {p.emoji}
+            </span>
+          ))}
+          {botParticles.map(p => (
+            <span
+              key={p.id}
+              className="party-particle-bottom"
+              style={{
+                left: `${p.left}%`,
+                animationDelay: `${p.delay}s`,
+                animationDuration: `${p.duration}s`,
+                fontSize: `${p.size}rem`,
+                '--end-rotation': `${p.rotation}deg`,
+                '--rise': `${p.rise}vh`,
+                '--drift': `${p.drift}vw`,
               }}
             >
               {p.emoji}

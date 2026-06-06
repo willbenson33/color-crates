@@ -296,9 +296,24 @@
 }
 
 @keyframes party-fall {
-  0%   { transform: translateY(0)    rotate(0deg);                  opacity: 1; }
-  85%  { opacity: 1; }
-  100% { transform: translateY(110vh) rotate(var(--end-rotation, 360deg)); opacity: 0; }
+  0%   { transform: translateY(0)     rotate(0deg);                           opacity: 1; }
+  88%  { opacity: 1; }
+  100% { transform: translateY(115vh) rotate(var(--end-rotation, 360deg));    opacity: 0; }
+}
+
+.party-particle-bottom {
+  position: fixed;
+  bottom: -2rem;
+  animation: party-rise ease-out forwards;
+  will-change: transform, opacity;
+  display: inline-block;
+  user-select: none;
+}
+
+@keyframes party-rise {
+  0%   { transform: translateX(0)              translateY(0)              rotate(0deg);                        opacity: 1; }
+  70%  { opacity: 1; }
+  100% { transform: translateX(var(--drift, 0vw)) translateY(var(--rise, -80vh)) rotate(var(--end-rotation, 360deg)); opacity: 0; }
 }
 
 .prize-emoji-party {
