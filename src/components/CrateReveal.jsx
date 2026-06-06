@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-export default function CrateReveal({ prize, score, streak, onNext, onQuit }) {
+export default function CrateReveal({ prize, score, streak, roundTime, onNext, onQuit }) {
   const [opened, setOpened] = useState(false)
 
   return (
@@ -27,6 +27,7 @@ export default function CrateReveal({ prize, score, streak, onNext, onQuit }) {
 
       <div className="crate-stats">
         <span>Score: {score}</span>
+        <span>⏱ {Number(roundTime).toFixed(1)}s</span>
         <span>🔥 Streak: {streak}</span>
       </div>
 
