@@ -83,7 +83,7 @@ export default function CrateReveal({ prize, score, streak, timeLabel, onNext, o
         {party
           ? '🎊 What a party! 🎊'
           : opened
-          ? 'Tap your prize to celebrate!'
+          ? prize?.emoji === '🎁' ? 'Tap your prize to celebrate!' : 'You won a prize!'
           : 'You earned a crate — tap to open it!'}
       </p>
 
