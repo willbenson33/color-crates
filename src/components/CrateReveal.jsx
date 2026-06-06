@@ -98,16 +98,16 @@ export default function CrateReveal({ prize, score, streak, timeLabel, onNext, o
           <div className="prize-burst">
             <span
               className={`prize-emoji${party ? ' prize-emoji-party' : ''}`}
-              onClick={triggerParty}
-              style={{ cursor: party ? 'default' : 'pointer' }}
-              role={party ? undefined : 'button'}
-              aria-label={party ? undefined : 'tap for party'}
+              onClick={prize?.emoji === '🎁' ? triggerParty : undefined}
+              style={{ cursor: prize?.emoji === '🎁' && !party ? 'pointer' : 'default' }}
+              role={prize?.emoji === '🎁' && !party ? 'button' : undefined}
+              aria-label={prize?.emoji === '🎁' && !party ? 'tap for party' : undefined}
             >
               {prize?.emoji}
             </span>
           </div>
           <p className="prize-label">{prize?.label}</p>
-          {!party && <p className="prize-tap-hint">Tap it!</p>}
+          {prize?.emoji === '🎁' && !party && <p className="prize-tap-hint">Tap it!</p>}
         </div>
       )}
 

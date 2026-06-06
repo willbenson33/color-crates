@@ -21,7 +21,7 @@ export const ADVANCED_PALETTE = [
   { name: 'Crimson', hex: '#dc143c' },
   { name: 'Scarlet', hex: '#ff2400' },
   { name: 'Coral', hex: '#ff7f50' },
-  { name: 'Amber', hex: '#ffbf00' },
+  { name: 'Amber', hex: '#ff8f00' },
   { name: 'Gold', hex: '#ffd700' },
   { name: 'Lime', hex: '#c6ff00' },
   { name: 'Olive', hex: '#808000' },
