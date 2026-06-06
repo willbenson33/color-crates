@@ -28,6 +28,9 @@ and a per-round timer.
 
 Do this for every change so the deployed site always reflects the latest code.
 
+## Communication
+- When sharing the live site URL, write it as plain text without bold or markdown formatting: https://willbenson33.github.io/color-crates/ — wrapping it in `**...**` breaks the link.
+
 ## Dev commands
 ```bash
 npm install
