@@ -8,13 +8,25 @@ import './App.css'
 
 const BEST_SCORE_KEY = 'colorCrates.bestScore'
 
+// Format total seconds as "Xs" or "Mm Ss".
+function formatTime(seconds) {
+  const total = Math.floor(seconds)
+  const m = Math.floor(total / 60)
+  const s = total % 60
+  return m > 0 ? `${m}m ${s}s` : `${s}s`
+}
+
 export default function App() {
   const [phase, setPhase] = useState('menu') // 'menu' | 'playing' | 'crate'
   const [difficulty, setDifficulty] = useState('easy')
   const [score, setScore] = useState(0)
   const [streak, setStreak] = useState(0)
   const [currentPrize, setCurrentPrize] = useState(null)
-  const [lastRoundTime, setLastRoundTime] = useState(0)
+  // Total seconds spent in the current game. It does NOT tick live — it's a
+  // static snapshot refreshed only when the player interacts (correct pick or
+  // advancing a round), giving a sense of time spent so far.
+  const [totalTime, setTotalTime] = useState(0)
+  const gameStart = useRef(Date.now())
   // Draws prizes without repeats until the whole pool has been seen.
   const drawPrize = useRef(makePrizeBag()).current
   const [bestScore, setBestScore] = useState(() => {
@@ -30,26 +42,34 @@ export default function App() {
     }
   }, [score, bestScore])
 
+  // Snapshot of elapsed game time at this interaction.
+  function refreshTime() {
+    setTotalTime((Date.now() - gameStart.current) / 1000)
+  }
+
   function startGame(difficultyKey) {
     setDifficulty(difficultyKey)
     setScore(0)
     setStreak(0)
+    gameStart.current = Date.now()
+    setTotalTime(0)
     setPhase('playing')
   }
 
-  function handleCorrect(roundTime) {
+  function handleCorrect() {
     const config = DIFFICULTIES[difficulty] ?? DIFFICULTIES.easy
     const newStreak = streak + 1
     // Small streak bonus to reward consecutive hits.
     const gained = config.points + Math.max(0, newStreak - 1) * 2
     setStreak(newStreak)
     setScore((s) => s + gained)
-    setLastRoundTime(roundTime ?? 0)
+    refreshTime()
     setCurrentPrize(drawPrize())
     setPhase('crate')
   }
 
   function nextRound() {
+    refreshTime()
     setPhase('playing')
   }
 
@@ -68,6 +88,7 @@ export default function App() {
           difficulty={difficulty}
           score={score}
           streak={streak}
+          timeLabel={formatTime(totalTime)}
           onCorrect={handleCorrect}
           onQuit={quitToMenu}
         />
@@ -78,7 +99,7 @@ export default function App() {
           prize={currentPrize}
           score={score}
           streak={streak}
-          roundTime={lastRoundTime}
+          timeLabel={formatTime(totalTime)}
           onNext={nextRound}
           onQuit={quitToMenu}
         />

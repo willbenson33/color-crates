@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { DIFFICULTIES, makeRound } from '../data/colors.js'
 
-export default function GameBoard({ difficulty, score, streak, onCorrect, onQuit }) {
+export default function GameBoard({ difficulty, score, streak, timeLabel, onCorrect, onQuit }) {
   const config = DIFFICULTIES[difficulty] ?? DIFFICULTIES.easy
 
   // A round is regenerated whenever we re-enter the playing phase. Using a
@@ -9,22 +9,10 @@ export default function GameBoard({ difficulty, score, streak, onCorrect, onQuit
   const [roundId] = useState(0)
   const round = useMemo(() => makeRound(difficulty), [difficulty, roundId])
 
-  // Per-round timer: starts when the round begins, ticks live in the HUD.
-  const startRef = useRef(Date.now())
-  const [elapsed, setElapsed] = useState(0)
-  useEffect(() => {
-    startRef.current = Date.now()
-    setElapsed(0)
-    const id = setInterval(() => {
-      setElapsed((Date.now() - startRef.current) / 1000)
-    }, 100)
-    return () => clearInterval(id)
-  }, [round])
-
   function handleClick(box) {
     // Only the correct box does anything — wrong boxes are inert (no response).
     if (box.name === round.target.name) {
-      onCorrect((Date.now() - startRef.current) / 1000)
+      onCorrect()
     }
   }
 
@@ -34,7 +22,7 @@ export default function GameBoard({ difficulty, score, streak, onCorrect, onQuit
         <button className="quit-btn" onClick={onQuit}>← Menu</button>
         <div className="hud-stats">
           <span className="hud-score">Score: {score}</span>
-          <span className="hud-time">⏱ {elapsed.toFixed(1)}s</span>
+          <span className="hud-time">⏱ {timeLabel}</span>
           <span className="hud-streak">🔥 Streak: {streak}</span>
         </div>
       </div>
