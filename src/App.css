@@ -81,7 +81,8 @@
 }
 
 /* ---------- Game board ---------- */
-.game { gap: 8px; }
+/* Wider than other screens so the 4×4 advanced grid fills the view. */
+.screen.game { max-width: 860px; gap: 8px; }
 
 .hud {
   width: 100%;
@@ -123,8 +124,10 @@
   gap: 14px;
   width: 100%;
 }
+/* Fixed column counts keep each grid symmetric on every screen size:
+   basic = 3×2 (6 boxes), advanced = 4×4 (16 boxes). */
 .grid-small { grid-template-columns: repeat(3, 1fr); }
-.grid-large { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+.grid-large { grid-template-columns: repeat(4, 1fr); }
 
 .color-box {
   aspect-ratio: 1 / 1;

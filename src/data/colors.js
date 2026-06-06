@@ -37,9 +37,8 @@ export const ADVANCED_PALETTE = [
   { name: 'Tan', hex: '#d7ccc8' },
 ]
 
-// Difficulty configuration. `palette` chooses the color vocabulary,
-// `count` is how many boxes appear, and `stroop` renders the prompt word
-// in a mismatching color (the Stroop effect).
+// Difficulty configuration. `palette` chooses the color vocabulary and
+// `count` is how many boxes appear (chosen to form a symmetric grid).
 export const DIFFICULTIES = {
   basic: {
     key: 'basic',
@@ -47,26 +46,15 @@ export const DIFFICULTIES = {
     blurb: '6 boxes, everyday color names',
     palette: BASIC_PALETTE,
     count: 6,
-    stroop: false,
     points: 10,
   },
   advanced: {
     key: 'advanced',
     label: 'Advanced Colors',
-    blurb: '10 boxes, fancy names & similar shades',
+    blurb: '16 boxes, fancy names & similar shades',
     palette: ADVANCED_PALETTE,
-    count: 10,
-    stroop: false,
+    count: 16,
     points: 20,
-  },
-  stroop: {
-    key: 'stroop',
-    label: 'Stroop Trick',
-    blurb: '10 advanced colors + the word lies about its color',
-    palette: ADVANCED_PALETTE,
-    count: 10,
-    stroop: true,
-    points: 30,
   },
 }
 
@@ -79,20 +67,11 @@ function shuffle(arr) {
   return a
 }
 
-// Build a single round: a shuffled set of `count` colors from the difficulty's
-// palette, one chosen as target, and (for stroop mode) a decoy color used to
-// paint the prompt word.
+// Build a single round: a shuffled set of `count` distinct colors from the
+// difficulty's palette, with one chosen as the target.
 export function makeRound(difficulty) {
   const config = DIFFICULTIES[difficulty] ?? DIFFICULTIES.basic
   const boxes = shuffle(config.palette).slice(0, config.count)
   const target = boxes[Math.floor(Math.random() * boxes.length)]
-
-  let promptColor = null
-  if (config.stroop) {
-    // Pick a different box color to display the prompt word in.
-    const others = boxes.filter((c) => c.name !== target.name)
-    promptColor = others[Math.floor(Math.random() * others.length)].hex
-  }
-
-  return { boxes: shuffle(boxes), target, promptColor }
+  return { boxes: shuffle(boxes), target }
 }

@@ -40,14 +40,7 @@ export default function GameBoard({ difficulty, score, streak, onCorrect, onQuit
       </div>
 
       <p className="prompt">
-        Click the{' '}
-        <span
-          className="prompt-color"
-          style={config.stroop ? { color: round.promptColor } : undefined}
-        >
-          {round.target.name}
-        </span>{' '}
-        box
+        Click the <span className="prompt-color">{round.target.name}</span> box
       </p>
 
       <div className={`grid grid-${config.count <= 6 ? 'small' : 'large'}`}>
