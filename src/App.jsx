@@ -3,10 +3,15 @@ import StartMenu from './components/StartMenu.jsx'
 import GameBoard from './components/GameBoard.jsx'
 import CrateReveal from './components/CrateReveal.jsx'
 import { DIFFICULTIES } from './data/colors.js'
-import { makePrizeBag } from './data/prizes.js'
+import { makePrizeBag, PRIZES } from './data/prizes.js'
 import './App.css'
 
 const BEST_SCORE_KEY = 'colorCrates.bestScore'
+
+// Dev tools are gated behind a "/dev" segment in the URL path.
+const DEV_MODE = window.location.pathname.includes('/dev')
+// The "surprise" reward — the gift box that triggers the party animation.
+const SURPRISE_PRIZE = PRIZES.find((p) => p.emoji === '🎁')
 
 // Format total seconds as "Xs" or "Mm Ss".
 function formatTime(seconds) {
@@ -82,8 +87,34 @@ export default function App() {
     setPhase('menu')
   }
 
+  // Dev shortcut: jump straight to the crate screen with a given prize.
+  function jumpToPrize(prize) {
+    refreshTime()
+    setCurrentPrize(prize)
+    setPhase('crate')
+  }
+
   return (
     <div className="app">
+      {DEV_MODE && (
+        <div className="dev-tools">
+          <button
+            className="dev-btn"
+            onClick={() => jumpToPrize(drawPrize())}
+            title="Skip straight to prize screen"
+          >
+            🎲 Wild Card
+          </button>
+          <button
+            className="dev-btn"
+            onClick={() => jumpToPrize(SURPRISE_PRIZE)}
+            title="Skip straight to the surprise gift"
+          >
+            🎁 Surprise
+          </button>
+        </div>
+      )}
+
       {phase === 'menu' && (
         <StartMenu bestScore={bestScore} onStart={startGame} />
       )}

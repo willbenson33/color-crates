@@ -19,6 +19,18 @@ and a per-round timer.
 - `src/data/colors.js` — `BASIC_PALETTE`, `ADVANCED_PALETTE`, `DIFFICULTIES`, `makeRound()`.
 - `src/data/prizes.js` — `PRIZES` list + `makePrizeBag()` (draws without repeats).
 
+## Dev mode
+Putting `/dev` anywhere in the URL path (e.g. `http://localhost:5173/color-crates/dev`)
+unlocks dev shortcut buttons in the bottom-right corner. Gated by `DEV_MODE` in
+`src/App.jsx` (`window.location.pathname.includes('/dev')`):
+- **🎲 Wild Card** — jump straight to the crate screen with a random prize.
+- **🎁 Surprise** — jump straight to the crate screen with the 🎁 Mystery Gift, the
+  "surprise" reward that triggers the tap-to-celebrate party animation.
+
+Note: this is a client-side path check, so it works on the Vite dev server but a hard
+load of `/color-crates/dev` on GitHub Pages would 404 (no SPA fallback). It's intended
+for local dev use.
+
 ## Workflow — IMPORTANT
 **After each change, update the build and GitHub Pages.** Concretely, once edits are done:
 1. `npm run build` to confirm it compiles cleanly.

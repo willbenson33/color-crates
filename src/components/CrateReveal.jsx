@@ -31,8 +31,8 @@ function makeBottomParticles(count) {
 export default function CrateReveal({ prize, score, streak, timeLabel, onNext, onQuit }) {
   const [opened, setOpened] = useState(false)
   const [party, setParty] = useState(false)
-  const [topParticles] = useState(() => makeTopParticles(440))
-  const [botParticles] = useState(() => makeBottomParticles(440))
+  const [topParticles] = useState(() => makeTopParticles(110))
+  const [botParticles] = useState(() => makeBottomParticles(110))
 
   function triggerParty() {
     if (!party) setParty(true)
