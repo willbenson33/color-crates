@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { DIFFICULTIES, makeRound } from '../data/colors.js'
 
-export default function GameBoard({ difficulty, score, streak, timeLabel, onCorrect, onQuit }) {
+export default function GameBoard({ difficulty, score, streak, timeLabel, onCorrect, onWrong, onQuit }) {
   const config = DIFFICULTIES[difficulty] ?? DIFFICULTIES.easy
 
   // A round is regenerated whenever we re-enter the playing phase. Using a
@@ -10,9 +10,11 @@ export default function GameBoard({ difficulty, score, streak, timeLabel, onCorr
   const round = useMemo(() => makeRound(difficulty), [difficulty, roundId])
 
   function handleClick(box) {
-    // Only the correct box does anything — wrong boxes are inert (no response).
     if (box.name === round.target.name) {
       onCorrect()
+    } else {
+      // A wrong pick interrupts the streak (banked points are kept).
+      onWrong()
     }
   }
 

@@ -68,6 +68,11 @@ export default function App() {
     setPhase('crate')
   }
 
+  function handleWrong() {
+    // Interrupting the streak forfeits the bonus momentum, but banked points stay.
+    setStreak(0)
+  }
+
   function nextRound() {
     refreshTime()
     setPhase('playing')
@@ -100,6 +105,7 @@ export default function App() {
           streak={streak}
           timeLabel={formatTime(totalTime)}
           onCorrect={handleCorrect}
+          onWrong={handleWrong}
           onQuit={quitToMenu}
         />
       )}
