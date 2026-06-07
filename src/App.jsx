@@ -101,6 +101,13 @@ export default function App() {
       {devMode && (
         <div className="dev-tools">
           <button
+            className="dev-btn dev-btn-exit"
+            onClick={() => setDevMode(false)}
+            title="Exit dev mode"
+          >
+            ✕ Exit Dev Mode
+          </button>
+          <button
             className="dev-btn"
             onClick={() => jumpToPrize(drawPrize())}
             title="Skip straight to prize screen"

@@ -30,6 +30,13 @@
 .dev-btn:active {
   transform: scale(0.96);
 }
+.dev-btn-exit {
+  color: #ff6b6b;
+  border-color: rgba(255, 107, 107, 0.35);
+}
+.dev-btn-exit:hover {
+  box-shadow: 0 4px 18px rgba(255, 107, 107, 0.35);
+}
 
 .app {
   min-height: 100vh;
