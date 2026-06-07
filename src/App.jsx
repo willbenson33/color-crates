@@ -82,18 +82,8 @@ export default function App() {
     setPhase('menu')
   }
 
-  function wildCard() {
-    refreshTime()
-    setCurrentPrize(drawPrize())
-    setPhase('crate')
-  }
-
   return (
     <div className="app">
-      <button className="wild-card-btn" onClick={wildCard} title="Skip straight to prize screen">
-        🎲 Wild Card
-      </button>
-
       {phase === 'menu' && (
         <StartMenu bestScore={bestScore} onStart={startGame} />
       )}
