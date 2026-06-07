@@ -118,27 +118,27 @@
 /* Wider than other screens so the 4×4 advanced grid fills the view. */
 .screen.game { max-width: 860px; gap: 8px; }
 
-/* "Try again!" flash on a wrong pick — pops in red at the top, then fades out. */
+/* "Try again!" nudge on a wrong pick — a soft white wobble that fades out. */
 .try-again-flash {
   position: fixed;
   top: 24px;
   left: 50%;
   z-index: 600;
-  transform: translateX(-50%);
   pointer-events: none;
-  font-size: clamp(1.6rem, 6vw, 2.6rem);
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  color: #ff5252;
-  text-shadow: 0 2px 14px rgba(255, 82, 82, 0.6);
-  animation: try-again-flash 1.1s ease-out forwards;
+  font-size: clamp(1.3rem, 4.5vw, 2rem);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+  animation: try-again-wobble 1.1s ease-out forwards;
 }
-@keyframes try-again-flash {
-  0%   { opacity: 0; transform: translateX(-50%) scale(0.6); }
-  15%  { opacity: 1; transform: translateX(-50%) scale(1.15); }
-  30%  { transform: translateX(-50%) scale(1); }
-  70%  { opacity: 1; }
-  100% { opacity: 0; transform: translateX(-50%) scale(1); }
+@keyframes try-again-wobble {
+  0%   { opacity: 0; transform: translateX(-50%) rotate(0deg); }
+  15%  { opacity: 0.9; transform: translateX(-50%) rotate(-5deg); }
+  35%  { transform: translateX(-50%) rotate(4deg); }
+  55%  { transform: translateX(-50%) rotate(-2.5deg); }
+  75%  { opacity: 0.9; transform: translateX(-50%) rotate(1deg); }
+  100% { opacity: 0; transform: translateX(-50%) rotate(0deg); }
 }
 
 .hud {
