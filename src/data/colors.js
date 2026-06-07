@@ -21,7 +21,7 @@ export const ADVANCED_PALETTE = [
   { name: 'Crimson',      hex: '#dc143c' },
   { name: 'Scarlet',      hex: '#ff2400' },
   { name: 'Coral',        hex: '#ff7f50' },
-  { name: 'Amber',        hex: '#ff8f00' },
+  { name: 'Tangerine',    hex: '#ff8f00' },
   { name: 'Gold',         hex: '#ffd700' },
   { name: 'Lime',         hex: '#c6ff00' },
   { name: 'Olive',        hex: '#808000' },
@@ -39,7 +39,7 @@ export const ADVANCED_PALETTE = [
   { name: 'Salmon',       hex: '#fa8072' },
   { name: 'Vermilion',    hex: '#e34234' },
   { name: 'Rose',         hex: '#ff007f' },
-  { name: 'Carnation',    hex: '#ff77ff' },
+  { name: 'Orchid',       hex: '#ff77ff' },
   { name: 'Plum',         hex: '#8e4585' },
   { name: 'Amethyst',     hex: '#b57edc' },
   { name: 'Periwinkle',   hex: '#ccccff' },
@@ -63,7 +63,7 @@ export const ADVANCED_PALETTE = [
   { name: 'Charcoal',     hex: '#36454f' },
   { name: 'Slate',        hex: '#708090' },
   { name: 'Burgundy',     hex: '#800020' },
-  { name: 'Ruby',         hex: '#e0115f' },
+  { name: 'Cerise',       hex: '#e0115f' },
 ]
 
 // Four difficulties, scaling by number of boxes (and color vocabulary).
