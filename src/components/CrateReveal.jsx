@@ -129,7 +129,7 @@ export default function CrateReveal({ prize, score, streak, timeLabel, onNext, o
         <span>🔥 Streak: {streak}</span>
       </div>
 
-      {opened && (
+      {opened && (prize?.emoji !== '🎁' || party) && (
         <div className="crate-actions">
           <button className="next-btn" onClick={onNext}>Next Round →</button>
           <button className="quit-btn-alt" onClick={onQuit}>Quit to Menu</button>
