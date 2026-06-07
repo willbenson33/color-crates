@@ -185,6 +185,34 @@
   100% { opacity: 0; transform: translateX(-50%) rotate(0deg); }
 }
 
+/* Hardcore death: a skull swells until it engulfs the whole screen. */
+.hardcore-death {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: radial-gradient(circle, rgba(20, 0, 0, 0.4), #000);
+  animation: death-bg 1.3s ease-in forwards;
+}
+.death-skull {
+  font-size: 12vmin;
+  line-height: 1;
+  transform: scale(0.3);
+  animation: death-skull-grow 1.3s cubic-bezier(0.55, 0, 0.85, 0.3) forwards;
+}
+@keyframes death-bg {
+  0%   { background: radial-gradient(circle, rgba(20, 0, 0, 0), rgba(0, 0, 0, 0)); }
+  100% { background: radial-gradient(circle, rgba(40, 0, 0, 0.6), #000); }
+}
+@keyframes death-skull-grow {
+  0%   { transform: scale(0.3) rotate(-8deg); opacity: 0.2; }
+  30%  { opacity: 1; }
+  100% { transform: scale(26) rotate(6deg); opacity: 1; }
+}
+
 .hud {
   width: 100%;
   display: flex;

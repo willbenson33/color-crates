@@ -15,13 +15,17 @@ export default function GameBoard({ difficulty, score, streak, hardcore, timeLab
   // Bumped on every wrong pick so the "Try again!" flash restarts its animation
   // even on consecutive misses (the changing key remounts the banner).
   const [tryAgainKey, setTryAgainKey] = useState(0)
+  // Hardcore death sequence: a skull engulfs the screen before we bail to menu.
+  const [dying, setDying] = useState(false)
 
   function handleClick(box) {
+    if (dying) return
     if (box.name === round.target.name) {
       onCorrect(missed)
     } else if (hardcore) {
-      // Hardcore: a single wrong pick ends the run immediately.
-      onLose()
+      // Hardcore: a single wrong pick ends the run. Play the death animation,
+      // then onLose() fires when the skull finishes engulfing the screen.
+      setDying(true)
     } else {
       // A wrong pick interrupts the streak and forfeits this round's points,
       // but the player can keep trying the same board to win the crate.
@@ -33,6 +37,12 @@ export default function GameBoard({ difficulty, score, streak, hardcore, timeLab
 
   return (
     <div className="screen game">
+      {dying && (
+        <div className="hardcore-death">
+          <span className="death-skull" onAnimationEnd={onLose}>💀</span>
+        </div>
+      )}
+
       {tryAgainKey > 0 && (
         <div key={tryAgainKey} className="try-again-flash">
           Try again!
