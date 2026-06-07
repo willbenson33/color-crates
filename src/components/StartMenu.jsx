@@ -1,14 +1,31 @@
+import { useRef } from 'react'
 import { DIFFICULTIES } from '../data/colors.js'
 
-export default function StartMenu({ bestScore, onStart, hardcore, onToggleHardcore }) {
+export default function StartMenu({ bestScore, onStart, hardcore, onToggleHardcore, onDevUnlock }) {
+  const tapCount = useRef(0)
+  const tapTimer = useRef(null)
+
+  function handleColorTap() {
+    tapCount.current += 1
+    clearTimeout(tapTimer.current)
+    if (tapCount.current >= 3) {
+      tapCount.current = 0
+      onDevUnlock?.()
+      return
+    }
+    tapTimer.current = setTimeout(() => { tapCount.current = 0 }, 2000)
+  }
+
   return (
     <div className="screen menu">
       <h1 className="title">
-        <span className="title-color title-c1">C</span>
-        <span className="title-color title-c2">o</span>
-        <span className="title-color title-c3">l</span>
-        <span className="title-color title-c4">o</span>
-        <span className="title-color title-c5">r</span>
+        <span className="title-word-color" onClick={handleColorTap} style={{ cursor: 'default' }}>
+          <span className="title-color title-c1">C</span>
+          <span className="title-color title-c2">o</span>
+          <span className="title-color title-c3">l</span>
+          <span className="title-color title-c4">o</span>
+          <span className="title-color title-c5">r</span>
+        </span>
         {' '}
         <span className="title-crate">Crates</span>
       </h1>

@@ -6,9 +6,6 @@ import { makePrizeBag, PRIZES } from './data/prizes.js'
 import './App.css'
 
 const BEST_SCORE_KEY = 'colorCrates.bestScore'
-
-// Dev tools are gated behind a "/dev" segment in the URL path.
-const DEV_MODE = window.location.pathname.includes('/dev')
 // The "surprise" reward — the gift box that triggers the party animation.
 const SURPRISE_PRIZE = PRIZES.find((p) => p.emoji === '🎁')
 
@@ -21,6 +18,7 @@ function formatTime(seconds) {
 }
 
 export default function App() {
+  const [devMode, setDevMode] = useState(() => window.location.pathname.includes('/dev'))
   const [phase, setPhase] = useState('menu') // 'menu' | 'playing' | 'crate'
   const [difficulty, setDifficulty] = useState('easy')
   // Hardcore mode: a single wrong pick ends the run.
@@ -100,7 +98,7 @@ export default function App() {
 
   return (
     <div className="app">
-      {DEV_MODE && (
+      {devMode && (
         <div className="dev-tools">
           <button
             className="dev-btn"
@@ -125,6 +123,7 @@ export default function App() {
           onStart={startGame}
           hardcore={hardcore}
           onToggleHardcore={() => setHardcore((h) => !h)}
+          onDevUnlock={() => setDevMode(true)}
         />
       )}
 
