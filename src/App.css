@@ -70,9 +70,54 @@
 
 .subtitle {
   color: var(--muted);
-  margin: 0 0 1.8em;
+  margin: 0 0 1.4em;
   max-width: 28ch;
 }
+
+/* Hardcore mode toggle on the start menu. */
+.hardcore-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 1.6em;
+  padding: 10px 16px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 14px;
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.hardcore-toggle:hover { background: rgba(255, 255, 255, 0.1); }
+.hardcore-toggle.on { border-color: #e53935; }
+
+.hardcore-switch {
+  flex: none;
+  position: relative;
+  width: 44px;
+  height: 24px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
+  transition: background 0.2s ease;
+}
+.hardcore-switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.2s ease;
+}
+.hardcore-toggle.on .hardcore-switch { background: #e53935; }
+.hardcore-toggle.on .hardcore-switch::after { transform: translateX(20px); }
+
+.hardcore-text { display: flex; flex-direction: column; gap: 2px; }
+.hardcore-name { font-weight: 700; font-size: 1.02rem; }
+.hardcore-desc { color: var(--muted); font-size: 0.82rem; }
 
 .difficulty-list {
   display: grid;

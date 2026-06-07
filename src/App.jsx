@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 import StartMenu from './components/StartMenu.jsx'
 import GameBoard from './components/GameBoard.jsx'
 import CrateReveal from './components/CrateReveal.jsx'
-import { DIFFICULTIES } from './data/colors.js'
 import { makePrizeBag, PRIZES } from './data/prizes.js'
 import './App.css'
 
@@ -24,6 +23,8 @@ function formatTime(seconds) {
 export default function App() {
   const [phase, setPhase] = useState('menu') // 'menu' | 'playing' | 'crate'
   const [difficulty, setDifficulty] = useState('easy')
+  // Hardcore mode: a single wrong pick ends the run.
+  const [hardcore, setHardcore] = useState(false)
   const [score, setScore] = useState(0)
   const [streak, setStreak] = useState(0)
   const [currentPrize, setCurrentPrize] = useState(null)
@@ -67,12 +68,9 @@ export default function App() {
       // the round scores nothing and the streak stays broken.
       setStreak(0)
     } else {
-      const config = DIFFICULTIES[difficulty] ?? DIFFICULTIES.easy
-      const newStreak = streak + 1
-      // Small streak bonus to reward consecutive hits.
-      const gained = config.points + Math.max(0, newStreak - 1) * 2
-      setStreak(newStreak)
-      setScore((s) => s + gained)
+      // Flat scoring: 1 point per correct card, no matter the difficulty.
+      setStreak(streak + 1)
+      setScore((s) => s + 1)
     }
     refreshTime()
     setCurrentPrize(drawPrize())
@@ -122,7 +120,12 @@ export default function App() {
       )}
 
       {phase === 'menu' && (
-        <StartMenu bestScore={bestScore} onStart={startGame} />
+        <StartMenu
+          bestScore={bestScore}
+          onStart={startGame}
+          hardcore={hardcore}
+          onToggleHardcore={() => setHardcore((h) => !h)}
+        />
       )}
 
       {phase === 'playing' && (
@@ -130,9 +133,11 @@ export default function App() {
           difficulty={difficulty}
           score={score}
           streak={streak}
+          hardcore={hardcore}
           timeLabel={formatTime(totalTime)}
           onCorrect={handleCorrect}
           onWrong={handleWrong}
+          onLose={quitToMenu}
           onQuit={quitToMenu}
         />
       )}

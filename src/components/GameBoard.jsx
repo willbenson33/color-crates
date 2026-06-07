@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { DIFFICULTIES, makeRound } from '../data/colors.js'
 
-export default function GameBoard({ difficulty, score, streak, timeLabel, onCorrect, onWrong, onQuit }) {
+export default function GameBoard({ difficulty, score, streak, hardcore, timeLabel, onCorrect, onWrong, onLose, onQuit }) {
   const config = DIFFICULTIES[difficulty] ?? DIFFICULTIES.easy
 
   // A round is regenerated whenever we re-enter the playing phase. Using a
@@ -19,6 +19,9 @@ export default function GameBoard({ difficulty, score, streak, timeLabel, onCorr
   function handleClick(box) {
     if (box.name === round.target.name) {
       onCorrect(missed)
+    } else if (hardcore) {
+      // Hardcore: a single wrong pick ends the run immediately.
+      onLose()
     } else {
       // A wrong pick interrupts the streak and forfeits this round's points,
       // but the player can keep trying the same board to win the crate.
