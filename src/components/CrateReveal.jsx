@@ -1,11 +1,16 @@
 import { useState } from 'react'
 
-const PARTY_EMOJIS = ['🎉', '🎊', '✨', '⭐', '🌟', '💫', '🎈', '🎀', '🦄', '🌈', '💥', '🍭', '🍬', '🎮', '👑', '🎆', '🪅', '🎇', '🥳', '🎵']
+// Desserts the mystery gift can turn into when opened. One is picked at random,
+// and every confetti particle rains down as that same dessert.
+const DESSERT_EMOJIS = ['🍰', '🧁', '🍩', '🍪', '🍫', '🍬', '🍭', '🍮', '🍦', '🍨', '🍧', '🥧', '🍡', '🍯', '🥮']
+
+function randomDessert() {
+  return DESSERT_EMOJIS[Math.floor(Math.random() * DESSERT_EMOJIS.length)]
+}
 
 function makeTopParticles(count) {
   return Array.from({ length: count }, (_, i) => ({
     id: `t${i}`,
-    emoji: PARTY_EMOJIS[Math.floor(Math.random() * PARTY_EMOJIS.length)],
     left: Math.random() * 100,
     delay: Math.random() * 3,
     duration: (1.8 + Math.random() * 2) * 1.5,
@@ -17,7 +22,6 @@ function makeTopParticles(count) {
 function makeBottomParticles(count) {
   return Array.from({ length: count }, (_, i) => ({
     id: `b${i}`,
-    emoji: PARTY_EMOJIS[Math.floor(Math.random() * PARTY_EMOJIS.length)],
     left: Math.random() * 100,
     delay: Math.random() * 2.5,
     duration: (1.5 + Math.random() * 2) * 1.5,
@@ -31,12 +35,20 @@ function makeBottomParticles(count) {
 export default function CrateReveal({ prize, score, streak, timeLabel, onNext, onQuit }) {
   const [opened, setOpened] = useState(false)
   const [party, setParty] = useState(false)
+  // The dessert the gift turns into — picked when the party is triggered.
+  const [dessert, setDessert] = useState(null)
   const [topParticles] = useState(() => makeTopParticles(110))
   const [botParticles] = useState(() => makeBottomParticles(110))
 
   function triggerParty() {
-    if (!party) setParty(true)
+    if (!party) {
+      setDessert(randomDessert())
+      setParty(true)
+    }
   }
+
+  // After the gift is opened into a dessert, show that dessert in its place.
+  const displayEmoji = party && dessert ? dessert : prize?.emoji
 
   return (
     <div className="screen crate-screen">
@@ -55,7 +67,7 @@ export default function CrateReveal({ prize, score, streak, timeLabel, onNext, o
                 '--end-rotation': `${p.rotation}deg`,
               }}
             >
-              {p.emoji}
+              {dessert}
             </span>
           ))}
           {botParticles.map(p => (
@@ -72,7 +84,7 @@ export default function CrateReveal({ prize, score, streak, timeLabel, onNext, o
                 '--drift': `${p.drift}vw`,
               }}
             >
-              {p.emoji}
+              {dessert}
             </span>
           ))}
         </div>
@@ -103,7 +115,7 @@ export default function CrateReveal({ prize, score, streak, timeLabel, onNext, o
               role={prize?.emoji === '🎁' && !party ? 'button' : undefined}
               aria-label={prize?.emoji === '🎁' && !party ? 'tap for party' : undefined}
             >
-              {prize?.emoji}
+              {displayEmoji}
             </span>
           </div>
           <p className="prize-label">{prize?.label}</p>

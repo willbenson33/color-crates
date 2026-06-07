@@ -61,13 +61,19 @@ export default function App() {
     setPhase('playing')
   }
 
-  function handleCorrect() {
-    const config = DIFFICULTIES[difficulty] ?? DIFFICULTIES.easy
-    const newStreak = streak + 1
-    // Small streak bonus to reward consecutive hits.
-    const gained = config.points + Math.max(0, newStreak - 1) * 2
-    setStreak(newStreak)
-    setScore((s) => s + gained)
+  function handleCorrect(missed) {
+    if (missed) {
+      // The player slipped up earlier this round: they still win the crate, but
+      // the round scores nothing and the streak stays broken.
+      setStreak(0)
+    } else {
+      const config = DIFFICULTIES[difficulty] ?? DIFFICULTIES.easy
+      const newStreak = streak + 1
+      // Small streak bonus to reward consecutive hits.
+      const gained = config.points + Math.max(0, newStreak - 1) * 2
+      setStreak(newStreak)
+      setScore((s) => s + gained)
+    }
     refreshTime()
     setCurrentPrize(drawPrize())
     setPhase('crate')
